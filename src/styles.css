@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.App {
+  font-family: sans-serif;
+  background: linear-gradient(0deg, #7b91b6 0.03%, #8778a8);
+   /* background: #0a4e8d62; */
+  color: $foreground-color;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0 30px;
+  height: 100vh;
+}
+
+.quiz_container {
+  width: 85%;
+  background: white;
+  border-radius: 10px;
+  margin: 5%;
+  padding: 5% 10%;
+  box-sizing: border-box;
+
+  .progress {
+    font-size: 32px;
+    font-weight: 500;
+  }
+
+  .question {
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0;
+  }
+  .choicelist {
+    margin-top: 20px;
+    margin-left: -40px;
+    li {
+      text-decoration: none;
+      list-style: none;
+      font: size 16px;
+      border: 1px solid #0d1a34;
+      border-radius: 16px;
+      padding: 11px;
+      margin-top: 16px;
+      cursor: pointer;
+    }
+    .selected {
+      background: #2e8ab567;
+      border: 1px solid #00bbff;
+    }
+  }
+
+  .footer {
+    display: flex;
+    justify-content: flex-end;
+    button {
+      background: #2e8ab567;
+      border-radius: 9px;
+      font-size: 18px;
+      padding: 10px 42px;
+      outline: none;
+      border: none;
+      margin-top: 15px;
+      cursor: pointer;
+
+      &:disabled {
+        background: #949494;
+        cursor: not-allowed;
+      }
+    }
+  }
+  .final_result {
+    text-align: center;
+    color: #4a00ba;
+    h2 {
+      font-size: 60px;
+    }
+    div {
+      margin: 10px;
+      font-size: 30px;
+    }
+    button {
+      margin-top: 30px;
+      font-size: 30px;
+      background: #faba66;
+      border: none;
+      border-radius: 9px;
+      cursor: pointer;
+    }
+  }
+}

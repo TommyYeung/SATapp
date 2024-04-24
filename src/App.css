@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+.addQuestionForm{
+  border: 5px;
+  border-color: blue;
+}
+Form{
+  border: 5px;
+  border-color: blue;
+}
