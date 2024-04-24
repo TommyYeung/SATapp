@@ -2,7 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { BASE_URL } from '../url.js';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 
 
 function QuestionSetPage() {
@@ -43,9 +44,10 @@ function QuestionSetPage() {
 
     console.log(questionSetData)
 
-    const history = useHistory();
-    const onClickToEnterTest = (questionSetId)=>{
-        history.push(`/questionSet/${questionSetId}`);
+    const navigate = useNavigate();
+    const onClickToEnterTest = (questionSetId) => {
+        // Frontend url!!
+        navigate(`/questions/${questionSetId}`);
     }
 
 
@@ -66,23 +68,25 @@ function QuestionSetPage() {
                     {questionSetData.QuestionSetDATA.map((value) => {
                         return (
                             <>
-                            <div className='border-2 border-blue-500 bg-sky-200 m-2 p-2 rounded-xl '>
-                                <div className='text-xl font-semibold'>{value.questionSetNo}</div>
-                                <div className='text-lg font-normal'>Title: {value.title}</div>
-                                <div className='text-sm font-light'>Description: {value.description}</div>
-                                <button className='border-2 border-green-600 bg-emerald-200  m-2 px-1 rounded-xl'
-                                
-                                
-                                    onClick={
-                                        
-                                            onClickToEnterTest(value.id) 
-                                        
-                                    }
-                                
-                                
-                                >Enter Test!</button>
-                            </div>
-                                
+                                <div className='border-2 border-blue-500 bg-sky-200 m-2 p-2 rounded-xl '>
+                                    <div className='text-xl font-semibold'>{value.questionSetNo}</div>
+                                    <div className='text-lg font-normal'>Title: {value.title}</div>
+                                    <div className='text-sm font-light'>Description: {value.description}</div>
+                                    <button className='border-2 border-green-600 bg-emerald-200  m-2 px-1 rounded-xl'
+
+
+                                        onClick={() => {
+                                            onClickToEnterTest(value.id)
+                                        }
+
+
+
+                                        }
+
+
+                                    >Enter Test!</button>
+                                </div>
+
                             </>
 
                         )

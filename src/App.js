@@ -178,7 +178,7 @@ function App(){
         <div className='font-bold text-balance flex justify-around bg-blue-300'>
           <Link to="/">  Home  </Link>
           <Link to="/addingQuestions">  addQuestions  </Link>
-          <Link to="/questions">  questions  </Link>
+          <Link to="/questions/:id">  questions  </Link>
           <Link to="/questionSet">  Question Set  </Link>
 
         </div>
@@ -188,7 +188,7 @@ function App(){
         <Routes className="">
           <Route path="/" exact Component={LandingPage}/>
           <Route path="/addingQuestions" exact Component={addQuestions}/>
-          <Route path="/questions" exact Component={QuestionPage}/>
+          <Route path="/questions/:id" exact Component={QuestionPage}/>
           <Route path="/questionSet" exact Component={QuestionSetPage}/>
 
           

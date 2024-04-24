@@ -19,7 +19,7 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
   const [showFinalResult, setShowFinalResult] = useState(false);
   const questionLength = questions.length;
 
-  const { question, choices, correctAnswer, questionType } =
+  const { question, id, correctAnswer, qType } =
     questions[currentQuestion];
 
 
@@ -49,7 +49,7 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
 //     fetchData();
 //   }, []);
 
-//   const { question, choices, correctAnswer, questionType } =
+//   const { question, choices, correctAnswer, qType } =
 //   allQ[currentQuestion];
 
 //   const questionLength = allQ.length;
@@ -78,22 +78,22 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
         {currentQuestion + 1}/{questions.length}
       </span>
       {!showFinalResult ? (
-        questionType === "SQ" ? (
+        qType === "SQ" ? (
           <SQ
             questionLength={questionLength}
             question={question}
             correctAnswer={correctAnswer}
-            choices={choices}
+            
             currentQuestion={currentQuestion}
             updateScores={updateScores}
           />
         ) : (
-          questionType === "MCQ" && (
+          qType === "MCQ" && (
             <MCQ
               questionLength={questionLength}
               question={question}
               correctAnswer={correctAnswer}
-              choices={choices}
+              QuestionId={id}
               currentQuestion={currentQuestion}
               updateScores={updateScores}
             />
