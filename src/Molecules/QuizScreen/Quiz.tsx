@@ -23,37 +23,6 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
     questions[currentQuestion];
 
 
-  
-// export const Quiz = ()=>{
-
-//   const [currentQuestion, setCurrentQuestion] = useState(0);
-//   const [correctAns, setCorrectAns] = useState(0);
-//   const [wrongAns, setWrongAns] = useState(0);
-//   const [showFinalResult, setShowFinalResult] = useState(false);
-
-
-//   const [allQ, setQuestions] = useState<any>([]);
-
-//   const BASE_URL = 'http://localhost:3001/questions';
-
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const response = await axios.get(`${BASE_URL}/questions`);
-//         setQuestions(response.data);
-//       } catch (error) {
-//         console.error('Error fetching data:', error);
-//       }
-//     };
-  
-//     fetchData();
-//   }, []);
-
-//   const { question, choices, correctAnswer, qType } =
-//   allQ[currentQuestion];
-
-//   const questionLength = allQ.length;
-
 
 
   const onTryAgain = () => {
@@ -62,7 +31,14 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
     setWrongAns(0);
   };
   function updateScores(newScoreUpdate) {
-    newScoreUpdate ? setCorrectAns(correctAns + 1) : setWrongAns(wrongAns + 1);
+    // newScoreUpdate ? setCorrectAns(correctAns + 1) : setWrongAns(wrongAns + 1);
+    if (newScoreUpdate) {
+      setCorrectAns(correctAns + 1)
+      console.log("Score++")
+    } else{
+      setWrongAns(wrongAns + 1)
+      console.log("Score--")
+    } 
 
     if (currentQuestion === questionLength - 1) {
       setCurrentQuestion(0);
@@ -74,11 +50,13 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
 
   return (
     <div className="quiz_container">
-      <span className="progress">
-        {currentQuestion + 1}/{questions.length}
-      </span>
+      
       {!showFinalResult ? (
         qType === "SQ" ? (
+          <>
+          <span className="progress">
+        {currentQuestion + 1}/{questions.length}
+        </span>
           <SQ
             questionLength={questionLength}
             question={question}
@@ -87,9 +65,15 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
             currentQuestion={currentQuestion}
             updateScores={updateScores}
           />
+          </>
+          
         ) : (
           qType === "MCQ" && (
-            <MCQ
+            <>
+            <span className="progress">
+        {currentQuestion + 1}/{questions.length}
+      </span>
+             <MCQ
               questionLength={questionLength}
               question={question}
               correctAnswer={correctAnswer}
@@ -97,6 +81,8 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
               currentQuestion={currentQuestion}
               updateScores={updateScores}
             />
+            </>
+           
           )
         )
       ) : (

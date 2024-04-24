@@ -62,8 +62,8 @@ export const MCQ: React.FC<MCQProps> = ({
 
     fetchData();
   }, [QuestionId]);
-  console.log(choices)
-  console.log(QuestionId)
+  // console.log(choices)
+  // console.log(QuestionId)
 
 
   // const choicesData = {
@@ -127,9 +127,9 @@ export const MCQ: React.FC<MCQProps> = ({
           <li
             key={choice}
             onClick={() => {
-              return onClickMCQAnswer(choice);
+              return onClickMCQAnswer(choice.choice);
             }}
-            className={choice === answerMCQ ? "selected" : null}
+            className={choice.choice === answerMCQ ? "selected" : null}
           >
             {choice.choice}
             {choice.image}
