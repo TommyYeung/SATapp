@@ -7,7 +7,7 @@ type SQProps = {
   correctAnswer: string;
   userInput: string;
   currentQuestion: number;
-  updateScores: () => void;
+  updateScores: (result: boolean) => void;
 };
 
 export const SQ: React.FC<SQProps> = ({
@@ -43,11 +43,12 @@ export const SQ: React.FC<SQProps> = ({
     } else {
       b = parseFloat(correctAnswer);
     }
-    if (a === b) {
+    if (a === b || answerSQ === correctAnswer) {
       updateScores(true);
     } else {
       updateScores(false);
     }
+    console.log(answerSQ, correctAnswer)
   }
 
   const onClickNextButton = () => {

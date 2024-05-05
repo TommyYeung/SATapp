@@ -165,8 +165,9 @@ import './styles.css';
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 
 import QuestionPage from "./pages/QuestionPage";
+import UpdateQuestionPage from "./pages/UpdateQuestionPage";
 import LandingPage from './pages/LandingPage';
-import addQuestions from './pages/addingQuestions';
+import reviewQuestions from './pages/ReviewQuestions';
 import QuestionSetPage from './pages/QuestionSetPage';
 
 function App(){
@@ -177,8 +178,8 @@ function App(){
       <Router className="">
         <div className='font-bold text-balance flex justify-around bg-blue-300'>
           <Link to="/">  Home  </Link>
-          <Link to="/addingQuestions">  addQuestions  </Link>
-          <Link to="/questions">  questions  </Link>
+          <Link to="/reviewQuestions">  ReviewQuestions  </Link>
+          {/* <Link to="/questions/:id">  Questions  </Link> */}
           <Link to="/questionSet">  Question Set  </Link>
 
         </div>
@@ -187,8 +188,9 @@ function App(){
 
         <Routes className="">
           <Route path="/" exact Component={LandingPage}/>
-          <Route path="/addingQuestions" exact Component={addQuestions}/>
-          <Route path="/questions" exact Component={QuestionPage}/>
+          <Route path="/reviewQuestions" exact Component={reviewQuestions}/>
+          <Route path="/questions/:id" exact Component={QuestionPage}/>
+          <Route path="/updateQuestions/:id" exact Component={UpdateQuestionPage}/>
           <Route path="/questionSet" exact Component={QuestionSetPage}/>
 
           

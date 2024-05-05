@@ -4,6 +4,7 @@ import '../App.css';
 import { useEffect, useState } from 'react';
 import { Quiz } from "../Molecules/QuizScreen/Quiz.tsx";
 import { BASE_URL } from '../url.js';
+import { useParams, useNavigate } from 'react-router-dom';
 
 
 function QuestionPage() {
@@ -11,12 +12,13 @@ function QuestionPage() {
         const [questions, setQuestions] = useState([]);
         const [loading, setLoading] = useState(true);
       
-        
+        const { id } = useParams(); 
       
         useEffect(() => {
           const fetchData = async () => {
             try {
-              const response = await axios.get(`${BASE_URL}/questions/questions`);
+              /////the backend url
+              const response = await axios.get(`${BASE_URL}/questionSet/questionSetAllQuestion/${id}`);
               setQuestions(response.data);
             } catch (error) {
               console.error('Error fetching data:', error);
@@ -27,7 +29,7 @@ function QuestionPage() {
       
           fetchData();
         }, []);
-      
+      console.log(questions)
         return (
           <div className="App">
             {loading ? (
