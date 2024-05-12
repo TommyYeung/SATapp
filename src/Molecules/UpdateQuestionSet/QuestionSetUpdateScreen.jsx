@@ -17,7 +17,7 @@ export const QuestionSetUpdateScreen = ({
 
     useEffect(() =>
         async function fetchData() {
-            // You can await here
+            
 
             await axios.get(`${BASE_URL}/questionSet/questionSet/${id}`)
    
@@ -67,7 +67,7 @@ export const QuestionSetUpdateScreen = ({
                     className=" m-2 p-1 "
                     />
                     
-                    <br /><label className=" m-2 p-1 font-semibold ">Question Number: </label>
+                    <br /><label className=" m-2 p-1 font-semibold ">Description: </label>
                     <Field type="text" id="description" name="description" autoComplete="off" disabled={!isEditing}
                     className=" m-2 p-1 "
                     />

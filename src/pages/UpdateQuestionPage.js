@@ -1,5 +1,5 @@
 import React from 'react'
-import { QuestionSetUpdateScreen } from '../Molecules/UpdateQuestions/QuestionSetUpdateScreen'
+import { QuestionSetUpdateScreen } from '../Molecules/UpdateQuestionSet/QuestionSetUpdateScreen'
 
 function UpdateQuestionPage() {
   return (
