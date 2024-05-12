@@ -5,8 +5,8 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
 import { BASE_URL } from "../url.js";
-import { QuestionSetUpdate } from "../Molecules/UpdateQuestions/QuestionSetUpdate.jsx"
-
+import { QuestionSetUpdate } from "../Molecules/UpdateQuestionSet/QuestionSetUpdate.jsx"
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -23,7 +23,7 @@ function reviewQuestions() {
 
 
   const confirmTeacherId = useCallback(async (data) => {
-
+    setTeacherId(data.TeacherId)
     console.log(data.TeacherId)
     axios.get(`${BASE_URL}/teacher/teacherAllQuestionSet/${data.TeacherId}`)
       // axios.get("http://localhost:3001/teacher/teacherAllQuestionSet/1")
@@ -44,17 +44,38 @@ function reviewQuestions() {
 
 
 
-
-
   useEffect(() => {
     console.log("Teacher:", thisTeacherQSet)
   }, [thisTeacherQSet, teacherId]);
 
 
 
+  const handleCreateNewQSet = useCallback(async (data) => {
+
+      axios.post(`${BASE_URL}/questionSet/addQuestionSet`,{"TeacherId":teacherId})
+      
+      .then((res) => {
+        console.log(res)
+        axios.get(`${BASE_URL}/teacher/teacherAllQuestionSet/${teacherId}`)
+        .then((res)=>{
+          setThisTeacherQSet(res.data)//make it update the ui to show the list
+        })
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 404) {
+         
+          console.error('Resource not found:', error.message);
+        } else {
+          
+          console.error('Error fetching data:', error.message);
+        }
+      });
+
+    }, [teacherId]);
+  
+
   return (
     <>
-
 
       <div>
 
@@ -64,31 +85,26 @@ function reviewQuestions() {
         // validationSchema={validationSchema}
 
         >
-          <Form className='bg-slate-300'>
+   <Form className='bg-slate-300'>
             <br /><label>Teacher ID: </label>
             <Field type="number" id="TeacherId" name="TeacherId" placeholder="TeacherId" autoComplete="off" />
 
 
             <button type="submit" className="bg-indigo-200 rounded-xl p-1">Enter</button>
 
-            <br /><br />
+            
+            <button onClick={handleCreateNewQSet} className="bg-indigo-200 rounded-xl p-1 ml-2 my-2">Add</button>
           </Form>
 
         </Formik>
 
-
       </div>
 
-
-
-      <AddQuestions />
-
       <div>
-        {/* {thisTeacherQuestionSetData.QuestionSetDATA.map((value) => { */}
+
         {thisTeacherQSet.map((value) => {
           return (
             <>
-
 
               <QuestionSetUpdate
                 questionSetNo={value.questionSetNo}
@@ -97,19 +113,10 @@ function reviewQuestions() {
                 id={value.id}
               />
 
-
-
-
             </>
 
           )
         })}
-
-
-
-
-
-
 
 
       </div>
