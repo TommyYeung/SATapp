@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import axios from "axios";
 import { BASE_URL } from "../url.js";
 import { QuestionSetUpdate } from "../Molecules/UpdateQuestionSet/QuestionSetUpdate.jsx"
+
 import { useNavigate } from 'react-router-dom';
 
 
@@ -25,7 +26,12 @@ function reviewQuestions() {
   const confirmTeacherId = useCallback(async (data) => {
     setTeacherId(data.TeacherId)
     console.log(data.TeacherId)
-    axios.get(`${BASE_URL}/teacher/teacherAllQuestionSet/${data.TeacherId}`)
+  });
+
+  const loadQSetList=useEffect(()=>{
+
+  
+    axios.get(`${BASE_URL}/teacher/teacherAllQuestionSet/${teacherId}`)
       // axios.get("http://localhost:3001/teacher/teacherAllQuestionSet/1")
       .then((res) => {
         console.log("all QSet:", res.data)
@@ -42,13 +48,7 @@ function reviewQuestions() {
 
   }, [teacherId]);
 
-
-
-  useEffect(() => {
-    console.log("Teacher:", thisTeacherQSet)
-  }, [thisTeacherQSet, teacherId]);
-
-
+ 
 
   const handleCreateNewQSet = useCallback(async (data) => {
 
@@ -73,7 +73,26 @@ function reviewQuestions() {
 
     }, [teacherId]);
   
+    const delQuestionSet = (qSetId)=>{
+      axios.delete(`${BASE_URL}/questionSet/deleteQuestionSet/${qSetId}`)
+      
+      .then((res) => {
+        console.log("Del QSet:", qSetId )
+        console.log(":", res )
+        // window.location.reload();
+        
 
+        const updatedQSetList = thisTeacherQSet.filter((qSet) => qSet.id !== qSetId);
+        setThisTeacherQSet(updatedQSetList);
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 404) {
+          console.error('Resource not found:', error.message);
+        } else {
+          console.error('Error fetching data:', error.message);
+        }
+      });
+    }
   return (
     <>
 
@@ -102,21 +121,36 @@ function reviewQuestions() {
 
       <div>
 
-        {thisTeacherQSet.map((value) => {
+        {
+        thisTeacherQSet.map((value) => {
           return (
             <>
-
-              <QuestionSetUpdate
+              <div>
+                <QuestionSetUpdate
                 questionSetNo={value.questionSetNo}
                 title={value.title}
                 description={value.description}
                 id={value.id}
               />
+               <button 
+                className="border-2 border-red-500 bg-pink-200  m-2 px-1 rounded-xl"
+                onClick={() => {
+                  delQuestionSet(value.id)
+                  
+                }
+              }
+                >
+                  DELETE
+                </button>
+              </div>
+              
 
             </>
 
           )
-        })}
+        })
+        
+        }
 
 
       </div>

@@ -1,5 +1,6 @@
 import React from 'react'
 import { QuestionSetUpdateScreen } from '../Molecules/UpdateQuestionSet/QuestionSetUpdateScreen'
+import {QuestionUpdate} from '../Molecules/UpdateQuestions/QuestionUpdate.jsx'
 
 function UpdateQuestionPage() {
   return (
@@ -7,6 +8,8 @@ function UpdateQuestionPage() {
       ths is the update pageeee
 
       <QuestionSetUpdateScreen/>
+
+      <QuestionUpdate/>
     </div>
   )
 }

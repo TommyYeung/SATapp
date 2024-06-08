@@ -18,6 +18,21 @@ export const QuestionSetUpdate = ({
         // Frontend url!!
         navigate(`/updateQuestions/${questionSetId}`);
     }
+    const delQuestionSet = (qSetId)=>{
+      axios.delete(`${BASE_URL}/questionSet/deleteQuestionSet/${qSetId}`)
+      // http://localhost:3001/questionSet/deleteQuestionSet/6
+      .then((res) => {
+        console.log("Del QSet:", qSetId )
+        
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 404) {
+          console.error('Resource not found:', error.message);
+        } else {
+          console.error('Error fetching data:', error.message);
+        }
+      });
+    }
 
 
 return(
@@ -34,6 +49,16 @@ return(
                   }
 
                 >Update Question Set</button>
+
+                <button 
+                className="border-2 border-red-500 bg-pink-200  m-2 px-1 rounded-xl"
+                onClick={() => {
+                  delQuestionSet(id)
+                }
+              }
+                >
+                  DELETE
+                </button>
               </div>
 
     </>
