@@ -70,6 +70,7 @@ export const QuestionSetUpdateScreen = ({
             const response = await axios.put(`${BASE_URL}/choice/updateChoice/${choice.id}`, values);
             console.log('Update response:', response.data);
             values.preventDefault()
+            
 
         } catch (error) {
             console.error('Error updating data:', error.message);
@@ -108,7 +109,7 @@ export const QuestionSetUpdateScreen = ({
             try {
                 const response = await axios.get(`${BASE_URL}/choice/thisQuestionChoice/${id}`);
                 setChoice(response.data);
-                console.log(response.data)
+                console.log("FetchChoice",response.data)
             } catch (error) {
                 if (error.response && error.response.status === 404) {
                     console.error('Resource not found:', error.message);
@@ -132,7 +133,12 @@ export const QuestionSetUpdateScreen = ({
     }));
 
     //return all the questions in a form
-    console.log(choice.id)
+    // console.log("AllChoice:",choice)
+    
+        console.log("The Choice::::",typeof choice)
+
+   
+    
     return (
         <>
             <Formik
@@ -188,8 +194,29 @@ export const QuestionSetUpdateScreen = ({
                     >Update</button>
                     <br /><br />
 
-                        <ChoiceUpdate id={choice.id} choice={choice.choice} image={choice.image}/>
-{/*                
+
+                    {/* {choice.map((choiceItem, index) => (
+                        // <ChoiceUpdate id={choice.id} choice={choice.choice} image={choice.image}/>
+                        <ChoiceUpdate id={choiceItem.id} choice={choiceItem.choice} image={choiceItem.image}/>
+                    )
+                    
+                )
+                } */}
+
+{/* {choice.length > 0 && ( // Check if choice has data
+  <div>
+    
+    {choice.map((choice) => (
+      <ChoiceUpdate id={choice.id} choice={choice.choice} image={choice.image}/>))}
+
+  </div>
+)} */}
+
+
+</Form>
+            </Formik>
+
+               
                     {choice.length > 0 && ( // Check if choice has data
                         <div>
                             
@@ -201,10 +228,6 @@ export const QuestionSetUpdateScreen = ({
                                     initialValues={choiceItem}
                                     onSubmit={clickToUpdateChoice}
 
-                                 
-
-
-
                                     enableReinitialize
                                 >
                                     
@@ -212,26 +235,32 @@ export const QuestionSetUpdateScreen = ({
                                         <br /><label className=" m-2 p-1 font-semibold ">Choice {index + 1}: </label>
                                         <Field type="text" id="choice" name="choice" autoComplete="off" disabled={!isEditing}
                                             className=" m-2 p-1 "
+                                            preventDefault
                                         />
 
 
                                         <br /><label className=" m-2 p-1 font-semibold ">Image: </label>
                                         <Field type="text" id="image" name="image" autoComplete="off" disabled={!isEditing}
                                             className=" m-2 p-1 "
+                                            preventDefault
+
                                         />
 
                                         <br />
                                         <button type="button" onClick={() => !isEditing ? setIsEditing(true) : setIsEditing(false)}
                                             className=" m-2 p-1 font-semibold bg-yellow-200 rounded-lg border-2 border-amber-600"
+                                            preventDefault
                                         >
                                             {
                                                 isEditing ? "Cancel" : "Edit"
                                             }
                                         </button>
                                         <button 
+                                        
                                         // type="submit"
 
                                         type="submit"
+                                        preventDefault
                                         //     onClick={
                                         //         // clickToUpdateChoice
                                                 
@@ -260,15 +289,15 @@ export const QuestionSetUpdateScreen = ({
                                     </Form>
                                 </Formik>
                             ))}
-                        </div>)} */}
+                        </div>)}
 
 
 
 
 
-
+{/* 
                 </Form>
-            </Formik>
+            </Formik> */}
 
         </>
     )
