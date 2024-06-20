@@ -5,7 +5,7 @@ import {QuestionUpdate} from '../Molecules/UpdateQuestions/QuestionUpdate.jsx'
 function UpdateQuestionPage() {
   return (
     <div>
-      ths is the update pageeee
+      
 
       <QuestionSetUpdateScreen/>
 

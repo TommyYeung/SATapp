@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from 'react'
+import { React, useEffect, useState,useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../../url';
 import axios from 'axios';
@@ -49,6 +49,42 @@ export const QuestionSetUpdateScreen = ({
                 }
               };
 
+
+
+
+
+
+              const handleCreateQuestion = useCallback(async (data) => {
+
+                axios.post(`${BASE_URL}/question/addQuestion`,{"QuestionSetId":id})
+                
+                .then((res) => {
+                  console.log(res)
+                  axios.get(`${BASE_URL}/questionSet/questionSet/${id}`)
+   
+                  .then((res) => {
+                      console.log("all QSet:", res.data)
+                      setThisQset(res.data)
+                  })
+                })
+                .catch((error) => {
+                  if (error.response && error.response.status === 404) {
+                   
+                    console.error('Resource not found:', error.message);
+                  } else {
+                    
+                    console.error('Error fetching data:', error.message);
+                  }
+                });
+          
+              }, [id]);
+
+
+
+
+
+
+
     return (
         <div>
             <Formik
@@ -82,6 +118,20 @@ export const QuestionSetUpdateScreen = ({
                     <button type="submit" 
                     className=" m-2 p-1 font-semibold bg-fuchsia-300 rounded-lg border-2 border-purple-600 "
                     >Update</button>
+
+
+                    <button
+                    className=" m-2 p-1 font-semibold bg-teal-300 rounded-lg border-2 border-purple-600 "
+                    onClick={handleCreateQuestion}
+                    >
+                        Add New Question
+                    </button>
+
+
+
+
+
+
                     <br /><br />
                 </Form>
             </Formik>
