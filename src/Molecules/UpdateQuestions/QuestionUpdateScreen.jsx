@@ -186,9 +186,26 @@ export const QuestionSetUpdateScreen = ({
 
 
 
+
+
       const getIsShowAddChoiceButton = useCallback(() => {
         return thisQ.qType === "MCQ" && choice.length < 4;
       }, [thisQ.qType, choice.length]);
+
+
+
+      const getIsShowChoice = useCallback(() => {
+        return thisQ.qType === "MCQ" && choice.length >0;
+      }, [thisQ.qType, choice.length]);
+
+
+
+
+
+
+
+
+
 
 
 
@@ -320,7 +337,7 @@ export const QuestionSetUpdateScreen = ({
             </Formik>
 
 
-            {choice.length > 0 && ( // Check if choice has data
+            {getIsShowChoice() && ( // Check if choice has data
                 <div>
 
 
