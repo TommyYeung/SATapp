@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from 'yup';
 import axios from "axios";
 import { BASE_URL } from "../../url";
 import { useNavigate } from 'react-router-dom';
-import {ChoiceUpdate} from "../UpdateChoices/ChoiceUpdate.jsx"
+import { ChoiceUpdate } from "../UpdateChoices/ChoiceUpdate.jsx"
 
 
 export const QuestionSetUpdateScreen = ({
@@ -63,20 +63,20 @@ export const QuestionSetUpdateScreen = ({
 
 
     const clickToUpdateChoice = async (values) => {
-        
-        console.log("va",values)
+
+        console.log("va", values)
         try {
 
             const response = await axios.put(`${BASE_URL}/choice/updateChoice/${choice.id}`, values);
             console.log('Update response:', response.data);
             values.preventDefault()
-            
+
 
         } catch (error) {
             console.error('Error updating data:', error.message);
 
         }
-        
+
     };
 
 
@@ -109,7 +109,7 @@ export const QuestionSetUpdateScreen = ({
             try {
                 const response = await axios.get(`${BASE_URL}/choice/thisQuestionChoice/${id}`);
                 setChoice(response.data);
-                console.log("FetchChoice",response.data)
+                console.log("FetchChoice", response.data)
             } catch (error) {
                 if (error.response && error.response.status === 404) {
                     console.error('Resource not found:', error.message);
@@ -129,16 +129,69 @@ export const QuestionSetUpdateScreen = ({
     const [thisChoice, setThisChoice] = useState(() => ({
         // choice,
         // image,
-        
+
     }));
 
     //return all the questions in a form
     // console.log("AllChoice:",choice)
-    
-        console.log("The Choice::::",typeof choice)
 
-   
-    
+    console.log("The Choice::::", typeof choice)
+
+    const clickToAddChoice = useCallback(async (data) => {
+
+        axios.post(`${BASE_URL}/choice/addChoice`, { "QuestionId": id })
+        axios.post(`${BASE_URL}/choice/addChoice`, { "QuestionId": id })
+        axios.post(`${BASE_URL}/choice/addChoice`, { "QuestionId": id })
+        axios.post(`${BASE_URL}/choice/addChoice`, { "QuestionId": id })
+
+            .then((res) => {
+                console.log(res)
+                axios.get(`${BASE_URL}/choice/thisQuestionChoice/${id}`)
+                    .then((res) => {
+                        setChoice(res.data)//make it update the ui to show the list
+                    })
+            })
+            .catch((error) => {
+                if (error.response && error.response.status === 404) {
+
+                    console.error('Resource not found:', error.message);
+                } else {
+
+                    console.error('Error fetching data:', error.message);
+                }
+            });
+
+    }, [id]);
+
+
+
+
+
+
+
+
+
+
+
+
+    const qTypeOptions = [
+        { value: "SQ", label: "SQ (Short Answer)" },
+        { value: "MCQ", label: "MCQ (Multiple Choice)" },
+      ];
+
+
+      const handleQTypeChange = (e) => {
+        setThisQ({ ...thisQ, qType: e.target.value });
+      };
+
+
+
+      const getIsShowAddChoiceButton = useCallback(() => {
+        return thisQ.qType === "MCQ" && choice.length < 4;
+      }, [thisQ.qType, choice.length]);
+
+
+
     return (
         <>
             <Formik
@@ -168,10 +221,21 @@ export const QuestionSetUpdateScreen = ({
 
 
 
-                    <br /><label className=" m-2 p-1 font-semibold ">Question Type: </label>
+                    {/* <br /><label className=" m-2 p-1 font-semibold ">Question Type: </label>
                     <Field type="text" id="qType" name="qType" autoComplete="off" disabled={!isEditing}
                         className=" m-2 p-1 "
-                    />
+                    /> */}
+
+<br />
+  <label className="m-2 p-1 font-semibold">Question Type: </label>
+  <Field as="select" id="qType" name="qType" disabled={!isEditing} className="m-2 p-1" onChange={handleQTypeChange}>
+    {qTypeOptions.map((option) => (
+      <option key={option.value} value={option.value}>
+        {option.label}
+      </option>
+    ))}
+  </Field>
+  <br />
 
 
                     <br /><label className=" m-2 p-1 font-semibold ">Image: </label>
@@ -181,7 +245,46 @@ export const QuestionSetUpdateScreen = ({
 
 
 
+
+
+
+
+                    {/* {qType == "MCQ" && choice.length < 4 && (
+                        <button
+                            className="m-2 p-1 font-semibold bg-teal-300 rounded-lg border-2 border-purple-600"
+                            onClick={clickToAddChoice}
+                        >
+                            Add Choices
+                        </button>
+                    )} */}
+
+{getIsShowAddChoiceButton() && (
+        <button
+          className="m-2 p-1 font-semibold bg-teal-300 rounded-lg border-2 border-purple-600"
+          onClick={clickToAddChoice}
+        >
+          Add Choices
+        </button>
+      )}
+
+
+
+
+
                     <br />
+
+
+
+
+
+
+
+
+
+
+
+
+
                     <button type="button" onClick={() => !isEditing ? setIsEditing(true) : setIsEditing(false)}
                         className=" m-2 p-1 font-semibold bg-yellow-200 rounded-lg border-2 border-amber-600"
                     >
@@ -203,7 +306,7 @@ export const QuestionSetUpdateScreen = ({
                 )
                 } */}
 
-{/* {choice.length > 0 && ( // Check if choice has data
+                    {/* {choice.length > 0 && ( // Check if choice has data
   <div>
     
     {choice.map((choice) => (
@@ -213,89 +316,89 @@ export const QuestionSetUpdateScreen = ({
 )} */}
 
 
-</Form>
+                </Form>
             </Formik>
 
-               
-                    {choice.length > 0 && ( // Check if choice has data
-                        <div>
-                            
-                            
-                           
-                            {choice.map((choiceItem, index) => (
-                                <Formik
-                                    key={index} // Add a unique key for each choice form
-                                    initialValues={choiceItem}
-                                    onSubmit={clickToUpdateChoice}
 
-                                    enableReinitialize
+            {choice.length > 0 && ( // Check if choice has data
+                <div>
+
+
+
+                    {choice.map((choiceItem, index) => (
+                        <Formik
+                            key={index} // Add a unique key for each choice form
+                            initialValues={choiceItem}
+                            onSubmit={clickToUpdateChoice}
+
+                            enableReinitialize
+                        >
+
+                            <Form className='bg-gray-200 rounded-lg border-2 border-indigo-400 m-1'>
+                                <br /><label className=" m-2 p-1 font-semibold ">Choice {index + 1}: </label>
+                                <Field type="text" id="choice" name="choice" autoComplete="off" disabled={!isEditing}
+                                    className=" m-2 p-1 "
+                                    preventDefault
+                                />
+
+
+                                <br /><label className=" m-2 p-1 font-semibold ">Image: </label>
+                                <Field type="text" id="image" name="image" autoComplete="off" disabled={!isEditing}
+                                    className=" m-2 p-1 "
+                                    preventDefault
+
+                                />
+
+                                <br />
+                                <button type="button" onClick={() => !isEditing ? setIsEditing(true) : setIsEditing(false)}
+                                    className=" m-2 p-1 font-semibold bg-yellow-200 rounded-lg border-2 border-amber-600"
+                                    preventDefault
                                 >
-                                    
-                                    <Form className='bg-gray-200 rounded-lg border-2 border-indigo-400 m-1'>
-                                        <br /><label className=" m-2 p-1 font-semibold ">Choice {index + 1}: </label>
-                                        <Field type="text" id="choice" name="choice" autoComplete="off" disabled={!isEditing}
-                                            className=" m-2 p-1 "
-                                            preventDefault
-                                        />
+                                    {
+                                        isEditing ? "Cancel" : "Edit"
+                                    }
+                                </button>
+                                <button
+
+                                    // type="submit"
+
+                                    type="submit"
+                                    preventDefault
+                                    //     onClick={
+                                    //         // clickToUpdateChoice
+
+                                    //         async (values) => {
+
+                                    //         try {
+
+                                    //             const response = await axios.put(`${BASE_URL}/choice/updateChoice/${choiceItem.id}`, values);
+                                    //             console.log('Update response:', response.data);
+                                    //             console.log("choiceID",choiceItem.id)
 
 
-                                        <br /><label className=" m-2 p-1 font-semibold ">Image: </label>
-                                        <Field type="text" id="image" name="image" autoComplete="off" disabled={!isEditing}
-                                            className=" m-2 p-1 "
-                                            preventDefault
+                                    //         } catch (error) {
+                                    //             console.error('Error updating data:', error.message);
+                                    //             console.log("choiceID",choiceItem.id)
+                                    //         }
 
-                                        />
+                                    //     }
 
-                                        <br />
-                                        <button type="button" onClick={() => !isEditing ? setIsEditing(true) : setIsEditing(false)}
-                                            className=" m-2 p-1 font-semibold bg-yellow-200 rounded-lg border-2 border-amber-600"
-                                            preventDefault
-                                        >
-                                            {
-                                                isEditing ? "Cancel" : "Edit"
-                                            }
-                                        </button>
-                                        <button 
-                                        
-                                        // type="submit"
 
-                                        type="submit"
-                                        preventDefault
-                                        //     onClick={
-                                        //         // clickToUpdateChoice
-                                                
-                                        //         async (values) => {
-                                                    
-                                        //         try {
-                                                    
-                                        //             const response = await axios.put(`${BASE_URL}/choice/updateChoice/${choiceItem.id}`, values);
-                                        //             console.log('Update response:', response.data);
-                                        //             console.log("choiceID",choiceItem.id)
-                                                    
-                                        
-                                        //         } catch (error) {
-                                        //             console.error('Error updating data:', error.message);
-                                        //             console.log("choiceID",choiceItem.id)
-                                        //         }
 
-                                        //     }
-                                        
-                                        
-                                        
-                                        // }
-                                            className=" m-2 p-1 font-semibold bg-fuchsia-300 rounded-lg border-2 border-purple-600 "
-                                        >Update</button>
-                                        <br /><br />
-                                    </Form>
-                                </Formik>
-                            ))}
-                        </div>)}
+                                    // }
+                                    className=" m-2 p-1 font-semibold bg-fuchsia-300 rounded-lg border-2 border-purple-600 "
+                                >Update</button>
+                                <br /><br />
+                            </Form>
+                        </Formik>
+                    ))}
+                </div>)}
 
 
 
 
 
-{/* 
+            {/* 
                 </Form>
             </Formik> */}
 
