@@ -170,7 +170,8 @@ export const QuestionUpdate = ({ }) => {
     };
 
     fetchData();
-  }, [id,allQ]);
+  }, [id]);
+  // }, [id,allQ]);
 
   const delQuestion = (qId) => {
     axios.delete(`${BASE_URL}/question/deleteQuestion/${qId}`)
@@ -195,15 +196,15 @@ export const QuestionUpdate = ({ }) => {
       .then((res) => {
         console.log(res);
 
-        // // Refetch all questions after creating a new one
-        // axios.get(`${BASE_URL}/questionSet/questionSet/${id}`)
-        //   .then((Q) => {
-        //     console.log("reloadAllQ:", Q.data);
-        //     setAllQ(Q.data);
-        //   });
+        // Refetch all questions after creating a new one
+        axios.get(`${BASE_URL}/questionSet/questionSet/${id}`)
+          .then((Q) => {
+            console.log("reloadAllQ:", Q.data);
+            setAllQ(Q.data);
+          });
 
-        const updatedQSetList = allQ.filter((questions) => questions.id !== id);
-        setAllQ(updatedQSetList);
+        // const updatedQSetList = allQ.filter((questions) => questions.id !== id);
+        // setAllQ(updatedQSetList);
 
 
       })

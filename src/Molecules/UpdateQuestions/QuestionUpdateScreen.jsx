@@ -338,7 +338,7 @@ export const QuestionSetUpdateScreen = ({
 
 
             {getIsShowChoice() && ( // Check if choice has data
-                <div>
+                <div className="bg-amber-500 bg-opacity-30 rounded-lg border-2  mx-16">
 
 
 
@@ -350,25 +350,25 @@ export const QuestionSetUpdateScreen = ({
 
                             enableReinitialize
                         >
-
-                            <Form className='bg-gray-200 rounded-lg border-2 border-indigo-400 m-1'>
-                                <br /><label className=" m-2 p-1 font-semibold ">Choice {index + 1}: </label>
+                            
+                            <Form className='border-indigo-400'>
+                                <label className=" m-1 p-1 font-semibold ">Choice {index + 1}: </label>
                                 <Field type="text" id="choice" name="choice" autoComplete="off" disabled={!isEditing}
-                                    className=" m-2 p-1 "
+                                    className=" m-1 p-1 "
                                     preventDefault
                                 />
 
 
-                                <br /><label className=" m-2 p-1 font-semibold ">Image: </label>
+                                <label className=" m-1 p-1 font-semibold ">Image: </label>
                                 <Field type="text" id="image" name="image" autoComplete="off" disabled={!isEditing}
-                                    className=" m-2 p-1 "
+                                    className=" m-1 p-1 "
                                     preventDefault
 
                                 />
 
-                                <br />
+                                
                                 <button type="button" onClick={() => !isEditing ? setIsEditing(true) : setIsEditing(false)}
-                                    className=" m-2 p-1 font-semibold bg-yellow-200 rounded-lg border-2 border-amber-600"
+                                    className=" m-1 p-1 font-semibold bg-yellow-200 rounded-lg border-2 border-amber-600"
                                     preventDefault
                                 >
                                     {
@@ -407,6 +407,7 @@ export const QuestionSetUpdateScreen = ({
                                 >Update</button>
                                 <br /><br />
                             </Form>
+                            
                         </Formik>
                     ))}
                 </div>)}
