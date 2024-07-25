@@ -68,7 +68,7 @@ export const SQ: React.FC<SQProps> = ({
        <h2 className="question flex flex-row items-center justify-center">
       <div className="flex items-center justify-center m-10">
       {image && (
-          <img src={image} alt="" className="max-w-xs object-cover border-2 p-4 border-cyan-600" />
+          <img src={image} alt="" className="max-w-xs object-cover border-2 p-4 border-cyan-500" />
         )}
       <div className="flex items-center justify-center m-10">
                   <LaTeX>{question}</LaTeX>
