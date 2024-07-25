@@ -4,7 +4,7 @@ import { MCQ } from "../QuizComponents/MCQ.tsx";
 import { SQ } from "../QuizComponents/SQ.tsx";
 import React from "react";
 
-
+var LaTeX = require("react-latex")
 
 
 type QuizProps = {
@@ -19,7 +19,7 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
   const [showFinalResult, setShowFinalResult] = useState(false);
   const questionLength = questions.length;
 
-  const { question, id, correctAnswer, qType } =
+  const { question, id, correctAnswer, qType,image } =
     questions[currentQuestion];
 
 
@@ -47,9 +47,21 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
       setCurrentQuestion(currentQuestion + 1);
     }
   }
-
+ 
+  const fraction =`${question}`
   return (
     <div className="quiz_container">
+      
+      {/* <LaTeX >
+                    {fraction}
+
+                    
+
+
+                </LaTeX> */}
+                <div>
+                  
+                </div>
       
       {!showFinalResult ? (
         qType === "SQ" ? (
@@ -57,13 +69,16 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
           <span className="progress">
         {currentQuestion + 1}/{questions.length}
         </span>
+        
           <SQ
             questionLength={questionLength}
             question={question}
             correctAnswer={correctAnswer}
-            
             currentQuestion={currentQuestion}
             updateScores={updateScores}
+            
+            image={image}
+
           />
           </>
           
@@ -80,6 +95,8 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
               QuestionId={id}
               currentQuestion={currentQuestion}
               updateScores={updateScores}
+            image={image}
+
             />
             </>
            

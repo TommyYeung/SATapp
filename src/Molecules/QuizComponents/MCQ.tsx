@@ -4,6 +4,9 @@ import { boolean } from "yup";
 import { BASE_URL } from "../../url";
 import axios from "axios";
 
+
+var LaTeX = require("react-latex")
+
 type MCQProps = {
   questionLength: number;
   question: string;
@@ -12,6 +15,8 @@ type MCQProps = {
   QuestionId: number;
   currentQuestion: number;
   updateScores: (result: boolean) => void;
+  image: string;
+
 };
 
 export const MCQ: React.FC<MCQProps> = ({
@@ -22,6 +27,7 @@ export const MCQ: React.FC<MCQProps> = ({
   QuestionId,
   currentQuestion,
   updateScores,
+  image
 }) => {
   const [answerMCQ, setAnswerMCQ] = useState(null);
   const [result, setResult] = useState<boolean>(false);
@@ -94,12 +100,25 @@ export const MCQ: React.FC<MCQProps> = ({
 
 
 
-
+  console.log("LATEX:", { question })
 
 
   return (
     <>
-      <h2 className="question">{question}</h2>
+      <h2 className="question flex flex-row">
+        <div className="flex items-center justify-center m-10">
+        {image && (
+          <img src={image} alt="" className="max-w-xs object-cover border-2 p-4 border-cyan-600" />
+        )}
+          <div className="flex items-center justify-center m-10">
+            <LaTeX>{question}</LaTeX>
+          </div>
+
+        </div>
+
+
+
+      </h2>
       {loading ? (
         <div>Loading...</div>
       ) : (<>
@@ -121,21 +140,37 @@ export const MCQ: React.FC<MCQProps> = ({
 
 
 
-        
+
         <ul className="choicelist">
-        {allChoices.map((choice) => (
-          <li
-            key={choice}
-            onClick={() => {
-              return onClickMCQAnswer(choice.choice);
-            }}
-            className={choice.choice === answerMCQ ? "selected" : null}
-          >
-            {choice.choice}
-            {choice.image}
-          </li>
-        ))}
-      </ul>
+          {allChoices.map((choice) => (
+            <li
+              key={choice}
+              onClick={() => {
+                return onClickMCQAnswer(choice.choice);
+              }}
+              className={choice.choice === answerMCQ ? "selected" : null}
+            >
+              {/* <LaTeX >
+                   {choice.choice} 
+                </LaTeX>
+                <div >
+
+                  
+                  <img src={choice.image} className="max-w-md object-cover"/>
+                  </div>
+                 */}
+              <div className="flex flex-row">
+              {choice.image && (
+                <img src={choice.image} alt="" className="max-w-xs object-cover border-2 p-4 border-cyan-600" />
+              )}
+               <div className="flex items-center justify-center m-10">
+                  <LaTeX>{choice.choice}</LaTeX>
+                </div>
+              </div>
+
+            </li>
+          ))}
+        </ul>
 
 
 
