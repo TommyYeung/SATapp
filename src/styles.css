@@ -3,7 +3,7 @@
 @tailwind utilities;
 .App {
   font-family: sans-serif;
-  background: linear-gradient(0deg, #7b91b6 0.03%, #8778a8);
+  background: linear-gradient(0deg, #ffffff 0.03%, #ffffff);
    /* background: #0a4e8d62; */
   color: $foreground-color;
   display: flex;

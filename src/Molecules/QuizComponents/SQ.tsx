@@ -1,13 +1,18 @@
 import React from "react";
 import { useState, useEffect } from "react";
 // import { aaa } from "./sqAnswerCheck";
+
+
+var LaTeX = require("react-latex")
+
 type SQProps = {
   questionLength: number;
   question: string;
   correctAnswer: string;
-  userInput: string;
+  // userInput: string;
   currentQuestion: number;
   updateScores: (result: boolean) => void;
+  image:string;
 };
 
 export const SQ: React.FC<SQProps> = ({
@@ -16,6 +21,7 @@ export const SQ: React.FC<SQProps> = ({
   correctAnswer,
   currentQuestion,
   updateScores,
+  image,
 }) => {
   const [answerSQ, setAnswerSQ] = useState("");
   const [Input, setInput] = useState(null);
@@ -59,7 +65,20 @@ export const SQ: React.FC<SQProps> = ({
 
   return (
     <>
-      <h2 className="question">{question}</h2>
+       <h2 className="question flex flex-row items-center justify-center">
+      <div className="flex items-center justify-center m-10">
+      {image && (
+          <img src={image} alt="" className="max-w-xs object-cover border-2 p-4 border-cyan-600" />
+        )}
+      <div className="flex items-center justify-center m-10">
+                  <LaTeX>{question}</LaTeX>
+                </div>
+          
+        </div>
+
+
+
+      </h2>
       <input
         type="text"
         onChange={handleInputChange}
