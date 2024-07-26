@@ -18,7 +18,12 @@ function QuestionPage() {
           const fetchData = async () => {
             try {
               /////the backend url
+
+              
               const response = await axios.get(`${BASE_URL}/questionSet/questionSetAllQuestion/${id}`);
+
+
+
               setQuestions(response.data);
             } catch (error) {
               console.error('Error fetching data:', error);

@@ -17,10 +17,36 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
   const [correctAns, setCorrectAns] = useState(0);
   const [wrongAns, setWrongAns] = useState(0);
   const [showFinalResult, setShowFinalResult] = useState(false);
-  const questionLength = questions.length;
+  
 
-  const { question, id, correctAnswer, qType,image } =
-    questions[currentQuestion];
+//  const { question, id, correctAnswer, qType,image,qNo, module } =
+//     questions[currentQuestion];
+// const questionLength = questions.length;
+
+
+
+   //// Filter questions for module 1
+   const filteredQuestionsModule1 = questions.filter((q) => q.module === 1);
+
+   //// Filter questions for module 2 (optional)
+  //  const filteredQuestionsModule2 = questions.filter((q) => q.module === 2);
+ 
+
+  // const { questionM1, idM1, correctAnswerM1, qTypeM1, imageM1, qNoM1, moduleM1 } =
+
+
+
+
+  const { question, id, correctAnswer, qType,image,qNo, module } =
+    filteredQuestionsModule1[currentQuestion];
+
+    const questionLength = filteredQuestionsModule1.length;
+
+
+
+
+  // const { questionM2, idM2, correctAnswerM2, qTypeM2, imageM2, qNoM2, moduleM2 } =
+  //   filteredQuestionsModule2[currentQuestion];
 
 
 
@@ -51,60 +77,41 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
   const fraction =`${question}`
   return (
     <div className="quiz_container">
-      
-      {/* <LaTeX >
-                    {fraction}
-
-                    
-
-
-                </LaTeX> */}
-                <div>
-                  
-                </div>
-      
       {!showFinalResult ? (
-        qType === "SQ" ? (
-          <>
-          <span className="progress">
-        {currentQuestion + 1}/{questions.length}
-        </span>
         
-          <SQ
-            questionLength={questionLength}
-            question={question}
-            correctAnswer={correctAnswer}
-            currentQuestion={currentQuestion}
-            updateScores={updateScores}
+          <>
+
+            {/* <span className="progress">
+              {currentQuestion + 1}/{questions.length}
+            </span> */}
+
             
-            image={image}
-
-          />
+            {qType === "SQ" ? (
+              <SQ
+                questionLength={questionLength}
+                question={question}
+                correctAnswer={correctAnswer}
+                currentQuestion={currentQuestion}
+                updateScores={updateScores}
+                image={image}
+                qNo={qNo}
+              />
+            ) : (
+              <MCQ
+                questionLength={questionLength}
+                question={question}
+                correctAnswer={correctAnswer}
+                QuestionId={id}
+                currentQuestion={currentQuestion}
+                updateScores={updateScores}
+                image={image}
+                qNo={qNo}
+              />
+            )}
           </>
-          
-        ) : (
-          qType === "MCQ" && (
-            <>
-            <span className="progress">
-        {currentQuestion + 1}/{questions.length}
-      </span>
-             <MCQ
-              questionLength={questionLength}
-              question={question}
-              correctAnswer={correctAnswer}
-              QuestionId={id}
-              currentQuestion={currentQuestion}
-              updateScores={updateScores}
-            image={image}
-
-            />
-            </>
-           
-          )
-        )
-      ) : (
+        )  : (
         <FinalResult
-          questionLength={questions.length}
+          questionLength={questionLength}
           correctAns={correctAns}
           wrongAns={wrongAns}
           onTryAgain={onTryAgain}
