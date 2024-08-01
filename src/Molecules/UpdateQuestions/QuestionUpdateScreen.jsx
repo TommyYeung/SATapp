@@ -13,7 +13,8 @@ export const QuestionSetUpdateScreen = ({
     module,
     qType,
     question,
-    id
+    id,
+    qNo
 
 
 }) => {
@@ -32,7 +33,8 @@ export const QuestionSetUpdateScreen = ({
         module,
         qType,
         question,
-        id
+        id,
+        qNo
     }));
 
     //Use useEffect to Set State Only Once to prevent over render
@@ -43,9 +45,10 @@ export const QuestionSetUpdateScreen = ({
             module,
             qType,
             question,
-            id
+            id,
+            qNo
         });
-    }, [correctAnswer, image, module, qType, question]);
+    }, [correctAnswer, image, module, qType, question,qNo]);
 
 
 
@@ -219,6 +222,13 @@ export const QuestionSetUpdateScreen = ({
 
             >
                 <Form className='bg-sky-100 rounded-lg border-4 border-indigo-600 m-1'>
+
+
+                    <br /><label className=" m-2 p-1 font-semibold ">Question Number: </label>
+                    <Field type="text" id="qNo" name="qNo" autoComplete="off" disabled={!isEditing}
+                        className=" m-2 p-1 "
+                    />
+                    
                     <br /><label className=" m-2 p-1 font-semibold ">Question: </label>
                     <Field type="text" id="question" name="question" autoComplete="off" disabled={!isEditing}
                         className=" m-2 p-1 "

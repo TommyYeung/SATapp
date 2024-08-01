@@ -13,6 +13,7 @@ type SQProps = {
   currentQuestion: number;
   updateScores: (result: boolean) => void;
   image:string;
+  qNo:number;
 };
 
 export const SQ: React.FC<SQProps> = ({
@@ -22,6 +23,7 @@ export const SQ: React.FC<SQProps> = ({
   currentQuestion,
   updateScores,
   image,
+  qNo,
 }) => {
   const [answerSQ, setAnswerSQ] = useState("");
   const [Input, setInput] = useState(null);
@@ -65,12 +67,16 @@ export const SQ: React.FC<SQProps> = ({
 
   return (
     <>
+    <br /><div>Question: {qNo}</div><br />
        <h2 className="question flex flex-row items-center justify-center">
+       
       <div className="flex items-center justify-center m-10">
       {image && (
           <img src={image} alt="" className="max-w-xs object-cover border-2 p-4 border-cyan-500" />
         )}
       <div className="flex items-center justify-center m-10">
+      
+      
                   <LaTeX>{question}</LaTeX>
                 </div>
           
