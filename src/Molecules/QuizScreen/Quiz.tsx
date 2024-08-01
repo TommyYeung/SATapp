@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useCallback } from "react";
 import { FinalResult } from "../QuizComponents/FinalResult.tsx";
 import { MCQ } from "../QuizComponents/MCQ.tsx";
 import { SQ } from "../QuizComponents/SQ.tsx";
 import React from "react";
+import { ModuleTwo } from "../ModuleTwo/ModuleTwo.jsx";
 
 var LaTeX = require("react-latex")
 
@@ -14,10 +15,13 @@ type QuizProps = {
 
 export const Quiz: React.FC<QuizProps> = ({ questions }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [startModuleTwo, setStartModuleTwo] = useState(false);
   const [correctAns, setCorrectAns] = useState(0);
   const [wrongAns, setWrongAns] = useState(0);
   const [showFinalResult, setShowFinalResult] = useState(false);
   
+  const [finishedM2, setFinishedM2] = useState(false);
+
 
 //  const { question, id, correctAnswer, qType,image,qNo, module } =
 //     questions[currentQuestion];
@@ -26,10 +30,9 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
 
 
    //// Filter questions for module 1
-   const filteredQuestionsModule1 = questions.filter((q) => q.module === 1);
+  //  const filteredQuestionsModule1 = questions.filter((q) => q.module === 1);
 
-   //// Filter questions for module 2 (optional)
-  //  const filteredQuestionsModule2 = questions.filter((q) => q.module === 2);
+ 
  
 
   // const { questionM1, idM1, correctAnswerM1, qTypeM1, imageM1, qNoM1, moduleM1 } =
@@ -37,25 +40,45 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
 
 
 
-  const { question, id, correctAnswer, qType,image,qNo, module } =
-    filteredQuestionsModule1[currentQuestion];
+  
 
-    const questionLength = filteredQuestionsModule1.length;
+   
 
+  // Filter questions for module 2 (optional)
+  //  const filteredQuestionsModule2 = questions.filter((q) => q.module === 2);
 
 
 
   // const { questionM2, idM2, correctAnswerM2, qTypeM2, imageM2, qNoM2, moduleM2 } =
   //   filteredQuestionsModule2[currentQuestion];
 
+  const filteredQuestionsModule1 = React.useMemo(() => {
+    return questions.filter((q) => q.module === 1);
+  }, [questions]);
+  
+  const filteredQuestionsModule2 = React.useMemo(() => {
+    return questions.filter((q) => q.module === 2);
+  }, [questions]);
+
+  
+const { question, id, correctAnswer, qType,image,qNo, module } =
+    filteredQuestionsModule1[currentQuestion];
 
 
 
+
+
+
+ const questionLength = filteredQuestionsModule1.length;
   const onTryAgain = () => {
     setShowFinalResult(false);
+    setStartModuleTwo(false);
     setCorrectAns(0);
     setWrongAns(0);
   };
+
+
+////////////////////////////////////////////////Score////////////////////////////////////////////////
   function updateScores(newScoreUpdate) {
     // newScoreUpdate ? setCorrectAns(correctAns + 1) : setWrongAns(wrongAns + 1);
     if (newScoreUpdate) {
@@ -68,25 +91,120 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
 
     if (currentQuestion === questionLength - 1) {
       setCurrentQuestion(0);
-      setShowFinalResult(true);
+      setStartModuleTwo(true);
+      // setShowFinalResult(true);
     } else {
       setCurrentQuestion(currentQuestion + 1);
     }
   }
+////////////////////////////////////////////////Score////////////////////////////////////////////////
+
+
+// function UpdateScores(newScoreUpdate) {
+//   const [tempCorrectAns, setTempCorrectAns] = useState(correctAns);
+//   const [tempWrongAns, setTempWrongAns] = useState(wrongAns);
+
+//   if (newScoreUpdate) {
+//     setTempCorrectAns(tempCorrectAns + 1);
+//     console.log("Score++");
+//   } else {
+//     setTempWrongAns(tempWrongAns + 1);
+//     console.log("Score--");
+//   }
+
+//   if (currentQuestion === questionLength - 1) {
+//     setCurrentQuestion(0);
+//       setStartModuleTwo(true);
+//       setShowFinalResult(true);
+//   } else {
+//     setCurrentQuestion(currentQuestion + 1);
+//   }
+
+//   setCorrectAns(tempCorrectAns);
+//   setWrongAns(tempWrongAns);
+// }
+
+//   const [tempCorrectAns, setTempCorrectAns] = useState(correctAns);
+//   const [tempWrongAns, setTempWrongAns] = useState(wrongAns);
+
+// function UpdateScores(newScoreUpdate) {
+
+//   if (newScoreUpdate) {
+//     setTempCorrectAns(tempCorrectAns + 1);
+//     console.log("Score++");
+//   } else {
+//     setTempWrongAns(tempWrongAns + 1);
+//     console.log("Score--");
+//   }
+
+//   if (currentQuestion === questionLength - 1) {
+//     setCurrentQuestion(0);
+//       setStartModuleTwo(true);
+//       // setShowFinalResult(true);
+//   } else {
+//     setCurrentQuestion(currentQuestion + 1);
+//   }
+
+//   setCorrectAns(tempCorrectAns);
+//   setWrongAns(tempWrongAns);
+// }
+
  
-  const fraction =`${question}`
+  // if (finishedM2==true) {
+  //   setShowFinalResult(true);
+  // }
+  
+
+  const checkFinishedM2 = useCallback((data) => {
+    setShowFinalResult(data)
+    setStartModuleTwo(false)
+    // setFinishedM2(data);
+  }, []);
+
+
+
+
+  // Early return for FinalResult
+  // if (showFinalResult) {
+  //   return (
+  //     <FinalResult
+  //       questionLength={questionLength}
+  //       correctAns={correctAns}
+  //       wrongAns={wrongAns}
+  //       onTryAgain={onTryAgain}
+  //     />
+  //   );
+  // }
+  // if (startModuleTwo) {
+  //   return (
+  //     <ModuleTwo 
+  //     moduleTwoQuestions={filteredQuestionsModule2}
+  //     finishedModuleTwo={checkFinishedM2}
+  //     />
+  //   );
+  // }
   return (
+    
     <div className="quiz_container">
-      {!showFinalResult ? (
-        
-          <>
 
-            {/* <span className="progress">
-              {currentQuestion + 1}/{questions.length}
-            </span> */}
+      {startModuleTwo && <ModuleTwo 
+      moduleTwoQuestions={filteredQuestionsModule2} 
+      finishedModuleTwo={checkFinishedM2} 
+      
+      />}
 
-            
-            {qType === "SQ" ? (
+      {showFinalResult && <FinalResult
+          questionLength={questionLength}
+          correctAns={correctAns}
+          wrongAns={wrongAns}
+          onTryAgain={onTryAgain}
+
+        />}
+
+
+ {!showFinalResult&& !startModuleTwo ? (
+  <>
+  {qType === "SQ" ? (
               <SQ
                 questionLength={questionLength}
                 question={question}
@@ -109,15 +227,59 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
               />
             )}
           </>
-        )  : (
-        <FinalResult
-          questionLength={questionLength}
-          correctAns={correctAns}
-          wrongAns={wrongAns}
-          onTryAgain={onTryAgain}
-        />
-      )}
+        ): (<div> </div>)}  
+        
+{/*         
+        {!showFinalResult ? (
+        
+        <> 
+
+         <span className="progress">
+           {currentQuestion + 1}/{questions.length}
+         </span>
+
+         
+         {qType === "SQ" ? (
+           <SQ
+             questionLength={questionLength}
+             question={question}
+             correctAnswer={correctAnswer}
+             currentQuestion={currentQuestion}
+             updateScores={UpdateScores}
+             image={image}
+             qNo={qNo}
+           />
+         ) : (
+           <MCQ
+             questionLength={questionLength}
+             question={question}
+             correctAnswer={correctAnswer}
+             QuestionId={id}
+             currentQuestion={currentQuestion}
+             updateScores={UpdateScores}
+             image={image}
+             qNo={qNo}
+           />
+         )}
+       </>
+     )  : (
+       startModuleTwo ? (
+       <ModuleTwo 
+       moduleTwoQuestions={filteredQuestionsModule2}
+       finishedModuleTwo={checkFinishedM2}
+       />
+       ):(
+     <FinalResult
+       questionLength={questionLength}
+       correctAns={correctAns}
+       wrongAns={wrongAns}
+       onTryAgain={onTryAgain}
+     />
+       )
+   )} */}
+    
     </div>
+    
   );
 };
 
