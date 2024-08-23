@@ -239,6 +239,7 @@ export const QuestionUpdate = ({ }) => {
                   qType={allQ.qType}
                   question={allQ.question}
                   id={allQ.id}
+                  qNo={allQ.qNo}
                 />
                 <button
                   className="border-2 border-red-500 bg-pink-200 m-2 px-1 rounded-xl"

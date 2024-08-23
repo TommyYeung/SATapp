@@ -225,7 +225,7 @@ export const QuestionSetUpdateScreen = ({
 
 
                     <br /><label className=" m-2 p-1 font-semibold ">Question Number: </label>
-                    <Field type="text" id="qNo" name="qNo" autoComplete="off" disabled={!isEditing}
+                    <Field type="number" id="qNo" name="qNo" autoComplete="off" disabled={!isEditing}
                         className=" m-2 p-1 "
                     />
                     
