@@ -22,7 +22,7 @@ export const Quiz: React.FC<QuizProps> = ({ questions }) => {
   
   const [finishedM2, setFinishedM2] = useState(false);
 
-
+const [currentQuestionM2, setCurrentQuestionM2] = useState(0);
 //  const { question, id, correctAnswer, qType,image,qNo, module } =
 //     questions[currentQuestion];
 // const questionLength = questions.length;
@@ -65,11 +65,18 @@ const { question, id, correctAnswer, qType,image,qNo, module } =
     filteredQuestionsModule1[currentQuestion];
 
 
+    const { questionM2, idM2, correctAnswerM2, qTypeM2,imageM2,qNoM2, moduleM2 } =
+    filteredQuestionsModule2[currentQuestionM2];
+
+    
 
 
-
-
+//////////////////////  Q Length //////////////////////
  const questionLength = filteredQuestionsModule1.length;
+ const questionLengthM2 = filteredQuestionsModule2.length;
+
+/////////////////////////////////////////////////////////////
+
   const onTryAgain = () => {
     setShowFinalResult(false);
     setStartModuleTwo(false);
@@ -93,11 +100,30 @@ const { question, id, correctAnswer, qType,image,qNo, module } =
       setCurrentQuestion(0);
       setStartModuleTwo(true);
       // setShowFinalResult(true);
+
+
+      
+
     } else {
       setCurrentQuestion(currentQuestion + 1);
     }
+
+    if (startModuleTwo === true) {
+    if (currentQuestionM2 === questionLengthM2 - 1) {
+      setCurrentQuestionM2(0);
+      // setStartModuleTwo(true);
+      setShowFinalResult(true);
+    } else {
+      setCurrentQuestionM2(currentQuestionM2 + 1);
+    }
+  }
+    
   }
 ////////////////////////////////////////////////Score////////////////////////////////////////////////
+
+
+
+
 
 
 // function UpdateScores(newScoreUpdate) {
@@ -185,13 +211,42 @@ const { question, id, correctAnswer, qType,image,qNo, module } =
   // }
   return (
     
+
+
+
     <div className="quiz_container">
 
-      {startModuleTwo && <ModuleTwo 
-      moduleTwoQuestions={filteredQuestionsModule2} 
-      finishedModuleTwo={checkFinishedM2} 
+      {startModuleTwo && 
       
-      />}
+      
+      
+      <>
+  {qTypeM2 === "SQ" ? (
+              <SQ
+                questionLength={questionLengthM2}
+                question={questionM2}
+                correctAnswer={correctAnswerM2}
+                currentQuestion={currentQuestionM2}
+                updateScores={updateScores}
+                image={imageM2}
+                qNo={qNoM2}
+              />
+              
+            ) : (
+              <MCQ
+                questionLength={questionLengthM2}
+                question={questionM2}
+                correctAnswer={correctAnswerM2}
+                QuestionId={idM2}
+                currentQuestion={currentQuestionM2}
+                updateScores={updateScores}
+                image={imageM2}
+                qNo={qNoM2}
+              />
+            )}
+          </>}
+
+      
 
       {showFinalResult && <FinalResult
           questionLength={questionLength}
@@ -202,7 +257,10 @@ const { question, id, correctAnswer, qType,image,qNo, module } =
         />}
 
 
- {!showFinalResult&& !startModuleTwo ? (
+ {!showFinalResult
+ &&
+  !startModuleTwo
+   ? (
   <>
   {qType === "SQ" ? (
               <SQ
@@ -229,8 +287,13 @@ const { question, id, correctAnswer, qType,image,qNo, module } =
           </>
         ): (<div> </div>)}  
         
-{/*         
-        {!showFinalResult ? (
+        
+      
+
+
+
+        
+        {/* {!showFinalResult ? (
         
         <> 
 
@@ -245,7 +308,7 @@ const { question, id, correctAnswer, qType,image,qNo, module } =
              question={question}
              correctAnswer={correctAnswer}
              currentQuestion={currentQuestion}
-             updateScores={UpdateScores}
+             updateScores={updateScores}
              image={image}
              qNo={qNo}
            />
@@ -256,7 +319,7 @@ const { question, id, correctAnswer, qType,image,qNo, module } =
              correctAnswer={correctAnswer}
              QuestionId={id}
              currentQuestion={currentQuestion}
-             updateScores={UpdateScores}
+             updateScores={updateScores}
              image={image}
              qNo={qNo}
            />
