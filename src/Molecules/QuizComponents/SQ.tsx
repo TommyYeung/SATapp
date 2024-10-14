@@ -65,6 +65,9 @@ export const SQ: React.FC<SQProps> = ({
     setInput("");
   };
 
+  console.log("LATEX:", { question })
+
+  
   return (
     <>
     <br /><div>Question: {qNo}</div><br />
